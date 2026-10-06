@@ -1,8 +1,9 @@
-mcp[cli]
-duckdb
-sqlglot
-pyyaml
+mcp[cli]==1.30.0
+duckdb==1.5.6
+sqlglot==30.21.0
+PyYAML==6.0.3
+langgraph==1.2.14
+ollama==0.6.3
+langfuse==4.17.0
+anyio==4.15.1
 pytest
-langgraph
-ollama
-langfuse
