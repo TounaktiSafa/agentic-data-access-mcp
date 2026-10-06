@@ -1,0 +1,17 @@
+metrics:
+  revenue:
+    description: Total value of completed orders (quantity x unit price).
+    expression: SUM(oi.quantity * p.price)
+    from: >-
+      analytics.order_items oi
+      JOIN analytics.orders o ON oi.order_id = o.order_id
+      JOIN analytics.products p ON oi.product_id = p.product_id
+    filter: o.status = 'completed'
+  aov:
+    description: Average order value = revenue / number of completed orders.
+    expression: SUM(oi.quantity * p.price) / COUNT(DISTINCT o.order_id)
+    from: >-
+      analytics.order_items oi
+      JOIN analytics.orders o ON oi.order_id = o.order_id
+      JOIN analytics.products p ON oi.product_id = p.product_id
+    filter: o.status = 'completed'

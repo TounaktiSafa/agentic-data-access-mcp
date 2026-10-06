@@ -1,0 +1,8 @@
+mcp[cli]
+duckdb
+sqlglot
+pyyaml
+pytest
+langgraph
+ollama
+langfuse

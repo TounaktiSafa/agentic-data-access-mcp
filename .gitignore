@@ -1,0 +1,7 @@
+
+.env
+evals/results/*.log
+.venv/
+__pycache__/
+.pytest_cache/
+data/*.duckdb

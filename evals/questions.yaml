@@ -1,0 +1,161 @@
+# 40 business questions. category: count | filter | aggregate | groupby | join | metric
+- id: q01
+  category: count
+  question: "How many customers do we have?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.customers"
+- id: q02
+  category: count
+  question: "How many products do we sell?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.products"
+- id: q03
+  category: count
+  question: "How many orders have been placed in total?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.orders"
+- id: q04
+  category: count
+  question: "How many order lines are there in total?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.order_items"
+- id: q05
+  category: count
+  question: "How many orders were cancelled?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.orders WHERE status = 'cancelled'"
+- id: q06
+  category: count
+  question: "How many orders were refunded?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.orders WHERE status = 'refunded'"
+- id: q07
+  category: count
+  question: "How many completed orders do we have?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.orders WHERE status = 'completed'"
+- id: q08
+  category: count
+  question: "How many distinct customers have placed at least one order?"
+  gold_sql: "SELECT COUNT(DISTINCT customer_id) FROM analytics.orders"
+- id: q09
+  category: filter
+  question: "How many customers are from Tunisia?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.customers WHERE country = 'TN'"
+- id: q10
+  category: filter
+  question: "How many customers signed up before April 2024?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.customers WHERE signup_date < DATE '2024-04-01'"
+- id: q11
+  category: filter
+  question: "How many products are in the tech category?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.products WHERE category = 'tech'"
+- id: q12
+  category: filter
+  question: "How many products cost more than 50?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.products WHERE price > 50"
+- id: q13
+  category: filter
+  question: "How many orders were placed in 2025?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.orders WHERE EXTRACT(year FROM order_date) = 2025"
+- id: q14
+  category: filter
+  question: "How many order lines have a quantity of 3?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.order_items WHERE quantity = 3"
+- id: q15
+  category: aggregate
+  question: "What is the average product price?"
+  gold_sql: "SELECT AVG(price) FROM analytics.products"
+- id: q16
+  category: aggregate
+  question: "What is the price of our most expensive product?"
+  gold_sql: "SELECT MAX(price) FROM analytics.products"
+- id: q17
+  category: aggregate
+  question: "What is the total quantity of items ordered across all order lines?"
+  gold_sql: "SELECT SUM(quantity) FROM analytics.order_items"
+- id: q18
+  category: aggregate
+  question: "What is the date of the earliest order?"
+  gold_sql: "SELECT MIN(order_date) FROM analytics.orders"
+- id: q19
+  category: metric
+  question: "What was our revenue in 2024?"
+  gold_sql: "SELECT SUM(oi.quantity * p.price) FROM analytics.order_items oi JOIN analytics.orders o ON oi.order_id = o.order_id JOIN analytics.products p ON oi.product_id = p.product_id WHERE o.status = 'completed' AND EXTRACT(year FROM o.order_date) = 2024"
+- id: q20
+  category: metric
+  question: "What is our revenue from the tech category?"
+  gold_sql: "SELECT SUM(oi.quantity * p.price) FROM analytics.order_items oi JOIN analytics.orders o ON oi.order_id = o.order_id JOIN analytics.products p ON oi.product_id = p.product_id WHERE o.status = 'completed' AND p.category = 'tech'"
+- id: q21
+  category: groupby
+  question: "How many customers do we have per country?"
+  gold_sql: "SELECT country, COUNT(*) FROM analytics.customers GROUP BY country"
+- id: q22
+  category: groupby
+  question: "How many products do we have per category?"
+  gold_sql: "SELECT category, COUNT(*) FROM analytics.products GROUP BY category"
+- id: q23
+  category: groupby
+  question: "How many orders do we have per status?"
+  gold_sql: "SELECT status, COUNT(*) FROM analytics.orders GROUP BY status"
+- id: q24
+  category: groupby
+  question: "What is the average product price per category?"
+  gold_sql: "SELECT category, AVG(price) FROM analytics.products GROUP BY category"
+- id: q25
+  category: groupby
+  question: "How many orders were placed per year?"
+  gold_sql: "SELECT EXTRACT(year FROM order_date), COUNT(*) FROM analytics.orders GROUP BY 1"
+- id: q26
+  category: groupby
+  question: "How many order lines are there for each quantity value?"
+  gold_sql: "SELECT quantity, COUNT(*) FROM analytics.order_items GROUP BY quantity"
+- id: q27
+  category: groupby
+  question: "What is the total quantity ordered per product category?"
+  gold_sql: "SELECT p.category, SUM(oi.quantity) FROM analytics.order_items oi JOIN analytics.products p ON oi.product_id = p.product_id GROUP BY p.category"
+- id: q28
+  category: groupby
+  question: "What are the minimum and maximum product prices per category?"
+  gold_sql: "SELECT category, MIN(price), MAX(price) FROM analytics.products GROUP BY category"
+- id: q29
+  category: join
+  question: "How many orders were placed by customers in Germany (DE)?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.orders o JOIN analytics.customers c ON o.customer_id = c.customer_id WHERE c.country = 'DE'"
+- id: q30
+  category: join
+  question: "How many orders were placed per customer country?"
+  gold_sql: "SELECT c.country, COUNT(*) FROM analytics.orders o JOIN analytics.customers c ON o.customer_id = c.customer_id GROUP BY c.country"
+- id: q31
+  category: join
+  question: "How many completed orders do we have per customer country?"
+  gold_sql: "SELECT c.country, COUNT(*) FROM analytics.orders o JOIN analytics.customers c ON o.customer_id = c.customer_id WHERE o.status = 'completed' GROUP BY c.country"
+- id: q32
+  category: join
+  question: "How many distinct products have been ordered at least once?"
+  gold_sql: "SELECT COUNT(DISTINCT product_id) FROM analytics.order_items"
+- id: q33
+  category: join
+  question: "What is the total quantity ordered in the books category?"
+  gold_sql: "SELECT SUM(oi.quantity) FROM analytics.order_items oi JOIN analytics.products p ON oi.product_id = p.product_id WHERE p.category = 'books'"
+- id: q34
+  category: aggregate
+  question: "What is the name of our most expensive product?"
+  gold_sql: "SELECT product_name FROM analytics.products ORDER BY price DESC LIMIT 1"
+- id: q35
+  category: join
+  question: "How many order lines belong to cancelled orders?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.order_items oi JOIN analytics.orders o ON oi.order_id = o.order_id WHERE o.status = 'cancelled'"
+- id: q36
+  category: join
+  question: "How many customers have never placed an order?"
+  gold_sql: "SELECT COUNT(*) FROM analytics.customers c WHERE NOT EXISTS (SELECT 1 FROM analytics.orders o WHERE o.customer_id = c.customer_id)"
+- id: q37
+  category: metric
+  question: "What is our total revenue?"
+  gold_sql: "SELECT SUM(oi.quantity * p.price) FROM analytics.order_items oi JOIN analytics.orders o ON oi.order_id = o.order_id JOIN analytics.products p ON oi.product_id = p.product_id WHERE o.status = 'completed'"
+- id: q38
+  category: metric
+  question: "What is our average order value?"
+  gold_sql: "SELECT SUM(oi.quantity * p.price) / COUNT(DISTINCT o.order_id) FROM analytics.order_items oi JOIN analytics.orders o ON oi.order_id = o.order_id JOIN analytics.products p ON oi.product_id = p.product_id WHERE o.status = 'completed'"
+- id: q39
+  category: metric
+  question: "What is our revenue per product category?"
+  gold_sql: "SELECT p.category, SUM(oi.quantity * p.price) FROM analytics.order_items oi JOIN analytics.orders o ON oi.order_id = o.order_id JOIN analytics.products p ON oi.product_id = p.product_id WHERE o.status = 'completed' GROUP BY p.category"
+- id: q40
+  category: metric
+  question: "What is our revenue per customer country?"
+  gold_sql: "SELECT c.country, SUM(oi.quantity * p.price) FROM analytics.order_items oi JOIN analytics.orders o ON oi.order_id = o.order_id JOIN analytics.products p ON oi.product_id = p.product_id JOIN analytics.customers c ON o.customer_id = c.customer_id WHERE o.status = 'completed' GROUP BY c.country"

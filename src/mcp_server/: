@@ -1,0 +1,9 @@
+import os
+import duckdb
+
+DB_PATH = os.getenv("WAREHOUSE_PATH", "data/shop.duckdb")
+
+
+def connect() -> duckdb.DuckDBPyConnection:
+    # read_only=True is the first safety layer: even a bad query cannot write
+    return duckdb.connect(DB_PATH, read_only=True)

@@ -1,0 +1,45 @@
+{
+  "nodes": {
+    "model.shop.customers": {
+      "resource_type": "model", "name": "customers", "schema": "analytics",
+      "description": "One row per customer.",
+      "columns": {
+        "customer_id": {"name": "customer_id", "description": "Primary key."},
+        "full_name": {"name": "full_name", "description": "Customer display name."},
+        "email": {"name": "email", "description": "PII. Always masked in query results."},
+        "country": {"name": "country", "description": "ISO country code: TN, FR, DE or US."},
+        "signup_date": {"name": "signup_date", "description": "Date the customer signed up."}
+      }
+    },
+    "model.shop.products": {
+      "resource_type": "model", "name": "products", "schema": "analytics",
+      "description": "One row per product in the catalog.",
+      "columns": {
+        "product_id": {"name": "product_id", "description": "Primary key."},
+        "product_name": {"name": "product_name", "description": "Product display name."},
+        "category": {"name": "category", "description": "One of books, tech, home, toys."},
+        "price": {"name": "price", "description": "Unit price in USD."}
+      }
+    },
+    "model.shop.orders": {
+      "resource_type": "model", "name": "orders", "schema": "analytics",
+      "description": "One row per order. The status column says whether the order was completed, cancelled or refunded.",
+      "columns": {
+        "order_id": {"name": "order_id", "description": "Primary key."},
+        "customer_id": {"name": "customer_id", "description": "FK to customers.customer_id."},
+        "order_date": {"name": "order_date", "description": "Date the order was placed."},
+        "status": {"name": "status", "description": "completed, cancelled or refunded."}
+      }
+    },
+    "model.shop.order_items": {
+      "resource_type": "model", "name": "order_items", "schema": "analytics",
+      "description": "One row per product line in an order.",
+      "columns": {
+        "order_item_id": {"name": "order_item_id", "description": "Primary key."},
+        "order_id": {"name": "order_id", "description": "FK to orders.order_id."},
+        "product_id": {"name": "product_id", "description": "FK to products.product_id."},
+        "quantity": {"name": "quantity", "description": "Units ordered (1 to 3)."}
+      }
+    }
+  }
+}

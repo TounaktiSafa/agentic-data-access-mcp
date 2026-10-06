@@ -1,0 +1,18 @@
+flowchart LR
+  U[User question] --> A
+  subgraph AG[LangGraph agent - Ollama qwen2.5:7b]
+    A[understand] --> B[pick_tables] --> C[write_sql] --> D[validate]
+    D -->|ok| E[run]
+    D -->|error, 1 retry| C
+    E -->|error, 1 retry| C
+    E --> F[explain]
+  end
+  E <-->|MCP over stdio| S
+  subgraph SRV[MCP server]
+    S[tools: list_tables, describe_table,<br/>get_table_docs, list_metrics, run_query]
+    G[Guardrails: sqlglot SELECT-only, schema allow-list,<br/>PII masking, LIMIT 100, 5 s timeout]
+    S --> G
+  end
+  G --> W[(DuckDB, read-only,<br/>no external access)]
+  SEM[semantic/: manifest.json + metrics.yml] --> S
+  AG -.traces.-> L[Langfuse, self-hosted]
