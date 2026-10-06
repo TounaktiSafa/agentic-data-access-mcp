@@ -11,4 +11,6 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python scripts/seed_duckdb.py
       - run: python evals/run_eval.py --check-gold
+      - run: pip freeze | grep -i -E "^(mcp|duckdb|sqlglot|anyio)=="; ls -la data
+      - run: python -c "import src.mcp_server.server"
       - run: python -m pytest -q
