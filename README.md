@@ -182,4 +182,8 @@ agentic-data-access-mcp/
 - **Strict evaluation.** Extra columns count as wrong, so some "wrong" answers are cosmetic. Gold SQL is validated before any LLM run.
 - **A test found a hole the eval missed.** `analytics.CUSTOMERS` bypassed masking until a targeted test caught it.
 - **Limits.** Single run per mode, a single 7B model, seed data where top-N would tie, and the tuning caveat above.
-=
+
+##  trace
+- Example trace:
+
+![trace](docs/trace.png)
