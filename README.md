@@ -10,7 +10,7 @@ A safe MCP server that lets an AI agent query a warehouse, plus a measured evalu
 
 **Headline result:** with the semantic layer, a local 7B model reaches **97.5% execution accuracy (39/40)** against **75.0%** without it, and **0 of 10** adversarial prompts got through.
 
-![architecture](docs/architecture.png)
+
 
 ```
 LangGraph agent -> MCP client -> MCP server (guardrails + semantic layer) -> read-only DuckDB
@@ -95,7 +95,7 @@ Gold SQL is validated against the guardrails and executed before any LLM run, so
 
 ## Results
 
-qwen2.5:7b, temperature 0. Full tables in [docs/results.md](docs/results.md).
+
 
 | | With semantic context | Without (baseline) |
 |---|---|---|
